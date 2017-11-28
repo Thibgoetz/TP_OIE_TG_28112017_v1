@@ -1,0 +1,38 @@
+PROGRAMME jeu_oie
+//BUT: simuler un jeu de l'oie
+//PRINCIPE: simuler la position de l'oie sur des cases virtuelles
+//ENTREE: resultat du lancer des deux des lancés par l'utilisateur
+//SORTIE: etat et avancement du jeu
+
+CONST:
+	dead <- 58				:ENTIER
+	win_case <- 66			:ENTIER
+	twice_every_x_case <- 9	:ENTIER
+
+VAR:
+	dice, pos 				:ENTIER
+
+DEBUT
+	pos <- 0;
+	TANT QUE (pos <> win_case) FAIRE
+		REPETER
+			ECRIRE("Entrez le resultat du jet de des(entre 2 et 12)")
+			LIRE(dice)
+		JUSQU'A ((dice >= 2) ET (dice <= 12))
+		pos <- pos + dice
+		SI (((pos MOD twice_every_x_case) = 0) ET (pos < 63)) ALORS
+			ECRIRE("Vous etes a la case ", pos," qui est une case double"
+			pos <- pos + dice
+		SINON SI (pos = dead) ALORS
+			ECRIRE("Vous etes sur la case ",pos," qui est mortelle, vous retournez a la case depart")
+			pos <- 0
+		SINON SI (pos > win_case) ALORS
+			ECRIRE("Vous etes sur la derniere case mais il vous reste du deplacement, vous reculez de ",pos - win_case, "case(s)")
+			pos <- win_case - (pos - win_case)
+		FINSI
+		ECRIRE("Vous etes maintenant a la case ",pos)
+		SI (pos = win_case) ALORS
+			ECRIRE("Vous avez gagne ! Bien joue !")
+		FINSI
+	FINTANTQUE
+FIN.
